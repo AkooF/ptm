@@ -10,8 +10,12 @@ class Task extends Model
         'name', 'description'
     ];
 
+    protected $hidden = [
+      'updated_at', 'pivot'
+    ];
+
     public function tags()
     {
-        $this->hasMany('App\Tag');
+        return $this->belongsToMany('App\Tag', 'task_tag');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::with('Tags')->get();
+        return Task::all();
     }
 
     /**
@@ -25,18 +26,28 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'tags' => 'array',
+            'tags.*' => 'int'
+        ]);
+        $task = Task::create($request->all());
+        if ($request->has('tags')) {
+            $tags = Tag::whereIn('id', $request->tags)->get();
+            $task->tags()->attach($tags);
+        }
+        return $task;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show($id)
     {
-        //
+        return Task::with('tags')->where('id', $id)->get();
     }
 
 }

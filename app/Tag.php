@@ -9,9 +9,13 @@ class Tag extends Model
     protected $fillable = [
         'name'
     ];
+    protected $hidden = [
+      'updated_at', 'pivot'
+    ];
 
     public function tasks()
     {
-        $this->belongsToMany('App\Task');
+       return $this->belongsToMany('App\Task', 'task_tag')
+           ->without('pivot');
     }
 }

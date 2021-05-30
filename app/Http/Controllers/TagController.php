@@ -14,7 +14,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        return Tag::with('tasks')->get();
+        return Tag::all();
     }
 
     /**
@@ -25,18 +25,22 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+        $tag = Tag::create($request->all());
+        return $tag;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tag  $tag
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show($id)
     {
-        //
+        return Tag::with('tasks')->where('id', $id)->get();
     }
 
 
