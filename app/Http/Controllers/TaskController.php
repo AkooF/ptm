@@ -14,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::with('Tags');
+        return Task::with('Tags')->get();
     }
 
     /**
