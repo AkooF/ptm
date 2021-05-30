@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::apiResource('/tasks', 'TaskController')->only(['index', 'store', 'show']);
+Route::apiResource('/tags', 'TagController')->only(['index', 'store', 'show']);
